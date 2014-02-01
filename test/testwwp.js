@@ -20,9 +20,7 @@ describe("wwp api",function(){
 
   function pathFor(element) {
     var box = element.getBBox();
-
     return [box.x,box.y,box.x2,box.y2];
-    return "M" + box.x + "," + box.y + "L" + box.x2 + "," + box.y2;
   }
 
   function drawingElements(paper) {
@@ -46,7 +44,13 @@ describe("wwp api",function(){
   });
 
 
-  function click(jQElement,pageX,pageY){
+  function clickMouseOn(jQElement,relativeX,relativeY){
+
+    var topLeftOfDrawingArea = jQElement.offset();
+    var pageX = relativeX + topLeftOfDrawingArea.left;
+    var pageY = relativeY + topLeftOfDrawingArea.top;
+
+
     var clickEvent = new jQuery.Event();
     clickEvent.pageX = pageX;
     clickEvent.pageY = pageY;
@@ -63,16 +67,20 @@ describe("wwp api",function(){
 
   it("can response to mutil clicks",function(){
 
-    click(drawingElement,50,50);
-    click(drawingElement,100,100);
+    clickMouseOn(drawingElement,50,50);
+    clickMouseOn(drawingElement,100,100);
+    clickMouseOn(drawingElement,35,36);
 
-    var expectStart = relativePosition(drawingElement,50,50);
-    var expectEnd = relativePosition(drawingElement,100,100);
+    var expect1 = relativePosition(drawingElement,50,50);
+    var expect2 = relativePosition(drawingElement,100,100);
+    var expect3 = relativePosition(drawingElement,35,36);
     var elements = drawingElements(paper);
 
-    expect(elements).to.have.length(1);
+    expect(elements).to.have.length(2);
     expect(pathFor(elements[0])).to.deep.equal(
-      [expectStart.x ,expectStart.y ,expectEnd.x,expectEnd.y]);
+      [expect1.x, expect1.y, expect2.x, expect2.y]);
+    expect(pathFor(elements[1])).to.deep.equal(
+      [expect3.x, expect3.y, expect2.x, expect2.y]);
 
   });
 
