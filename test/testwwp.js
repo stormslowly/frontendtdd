@@ -1,4 +1,4 @@
-/* global $, jQuery, chai, describe, beforeEach, afterEach, wwp, it */
+/* global $, jQuery, chai, describe, beforeEach, afterEach, wwp, it, xit */
 "use strict";
 
 describe("wwp api",function(){
@@ -43,21 +43,46 @@ describe("wwp api",function(){
     expect(pathFor(elements[0])).to.equal("M0,0L100,100");
   });
 
-  it("can repsonse to div click",function(){
+
+  function click(jQElement,pageX,pageY){
     var clickEvent = new jQuery.Event();
-    clickEvent.pageX = 100;
-    clickEvent.pageY = 200;
+    clickEvent.pageX = pageX;
+    clickEvent.pageY = pageY;
     clickEvent.type = "click";
+    jQElement.trigger(clickEvent);
+  }
 
-    drawingElement.trigger(clickEvent);
+  function relativePosition(jqElement,pageX,pageY){
+    var newX = pageX - jqElement.offset().left;
+    var newY = pageY - jqElement.offset().top;
 
+    return {x:newX,y:newY};
+  }
+
+  xit("can repsonse to a single click",function(){
+    click(drawingElement,100,200);
     var elements = drawingElements(paper);
+
     expect(elements).to.have.length(1);
     expect(pathFor(elements[0])).to.equal("M0,0L" +
       ( 100 - drawingElement.offset().left) +  "," +
       ( 200 - drawingElement.offset().top));
   });
 
-  it("");
+  it("can response to mutil clicks",function(){
+
+    click(drawingElement,50,50);
+    click(drawingElement,100,100);
+
+    var expectStart = relativePosition(drawingElement,50,50);
+    var expectEnd = relativePosition(drawingElement,100,100);
+    var elements = drawingElements(paper);
+
+    expect(elements).to.have.length(1);
+    expect(pathFor(elements[0])).to.equal(
+      "M" + expectStart.x +"," + expectStart.y +
+      "L" + expectEnd.x   +"," + expectEnd.y);
+
+  });
 
 });
