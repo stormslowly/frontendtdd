@@ -20,6 +20,8 @@ describe("wwp api",function(){
 
   function pathFor(element) {
     var box = element.getBBox();
+
+    return [box.x,box.y,box.x2,box.y2];
     return "M" + box.x + "," + box.y + "L" + box.x2 + "," + box.y2;
   }
 
@@ -40,7 +42,7 @@ describe("wwp api",function(){
     wwp.drawLine(0,0,100,100);
     var elements = drawingElements(paper);
     expect(elements).to.have.length(1);
-    expect(pathFor(elements[0])).to.equal("M0,0L100,100");
+    expect(pathFor(elements[0])).to.deep.equal([0,0,100,100]);
   });
 
 
@@ -69,9 +71,8 @@ describe("wwp api",function(){
     var elements = drawingElements(paper);
 
     expect(elements).to.have.length(1);
-    expect(pathFor(elements[0])).to.equal(
-      "M" + expectStart.x +"," + expectStart.y +
-      "L" + expectEnd.x   +"," + expectEnd.y);
+    expect(pathFor(elements[0])).to.deep.equal(
+      [expectStart.x ,expectStart.y ,expectEnd.x,expectEnd.y]);
 
   });
 
