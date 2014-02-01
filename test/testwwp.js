@@ -56,10 +56,57 @@ describe("wwp api",function(){
     jQElement.trigger(clickEvent);
   }
 
-  it("can response to mutil clicks",function(){
-    clickMouseOn(drawingElement,50,50);
-    clickMouseOn(drawingElement,100,100);
-    clickMouseOn(drawingElement,35,36);
+  function downMouseOn(jQElement,relativeX,relativeY){
+    var topLeftOfDrawingArea = jQElement.offset();
+    var pageX = relativeX + topLeftOfDrawingArea.left;
+    var pageY = relativeY + topLeftOfDrawingArea.top;
+
+    var clickEvent = new jQuery.Event();
+    clickEvent.pageX = pageX;
+    clickEvent.pageY = pageY;
+    clickEvent.type = "mousedown";
+    jQElement.trigger(clickEvent);
+  }
+
+  function upMouseOn(jQElement,relativeX,relativeY){
+    var topLeftOfDrawingArea = jQElement.offset();
+    var pageX = relativeX + topLeftOfDrawingArea.left;
+    var pageY = relativeY + topLeftOfDrawingArea.top;
+
+    var clickEvent = new jQuery.Event();
+    clickEvent.pageX = pageX;
+    clickEvent.pageY = pageY;
+    clickEvent.type = "mouseup";
+    jQElement.trigger(clickEvent);
+  }
+
+  function moveMouseOn(jQElement,relativeX,relativeY){
+    var topLeftOfDrawingArea = jQElement.offset();
+    var pageX = relativeX + topLeftOfDrawingArea.left;
+    var pageY = relativeY + topLeftOfDrawingArea.top;
+
+    var clickEvent = new jQuery.Event();
+    clickEvent.pageX = pageX;
+    clickEvent.pageY = pageY;
+    clickEvent.type = "mousemove";
+    jQElement.trigger(clickEvent);
+  }
+
+
+
+
+
+
+
+
+  it("can response to mouse drag ",function(){
+    // clickMouseOn(drawingElement,50,50);
+    // clickMouseOn(drawingElement,100,100);
+    // clickMouseOn(drawingElement,35,36);
+
+    downMouseOn(drawingElement,50,50);
+    moveMouseOn(drawingElement,100,100);
+    upMouseOn(drawingElement,100,100);
 
     var elements = drawingElements(paper);
     expect(elements).to.have.length(2);
