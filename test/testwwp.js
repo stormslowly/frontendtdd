@@ -92,26 +92,15 @@ describe("wwp api",function(){
     jQElement.trigger(clickEvent);
   }
 
-
-
-
-
-
-
-
   it("can response to mouse drag ",function(){
-    // clickMouseOn(drawingElement,50,50);
-    // clickMouseOn(drawingElement,100,100);
-    // clickMouseOn(drawingElement,35,36);
 
     downMouseOn(drawingElement,50,50);
     moveMouseOn(drawingElement,100,100);
     upMouseOn(drawingElement,100,100);
 
     var elements = drawingElements(paper);
-    expect(elements).to.have.length(2);
+    expect(elements).to.have.length(1);
     expect(pathFor(elements[0])).to.deep.equal([50,50,100,100]);
-    expect(pathFor(elements[1])).to.deep.equal([35,36,100,100]);
   });
 
 });
