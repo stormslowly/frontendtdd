@@ -59,16 +59,6 @@ describe("wwp api",function(){
     return {x:newX,y:newY};
   }
 
-  xit("can repsonse to a single click",function(){
-    click(drawingElement,100,200);
-    var elements = drawingElements(paper);
-
-    expect(elements).to.have.length(1);
-    expect(pathFor(elements[0])).to.equal("M0,0L" +
-      ( 100 - drawingElement.offset().left) +  "," +
-      ( 200 - drawingElement.offset().top));
-  });
-
   it("can response to mutil clicks",function(){
 
     click(drawingElement,50,50);
