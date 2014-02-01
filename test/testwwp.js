@@ -45,11 +45,9 @@ describe("wwp api",function(){
 
 
   function clickMouseOn(jQElement,relativeX,relativeY){
-
     var topLeftOfDrawingArea = jQElement.offset();
     var pageX = relativeX + topLeftOfDrawingArea.left;
     var pageY = relativeY + topLeftOfDrawingArea.top;
-
 
     var clickEvent = new jQuery.Event();
     clickEvent.pageX = pageX;
@@ -66,22 +64,14 @@ describe("wwp api",function(){
   }
 
   it("can response to mutil clicks",function(){
-
     clickMouseOn(drawingElement,50,50);
     clickMouseOn(drawingElement,100,100);
     clickMouseOn(drawingElement,35,36);
 
-    var expect1 = relativePosition(drawingElement,50,50);
-    var expect2 = relativePosition(drawingElement,100,100);
-    var expect3 = relativePosition(drawingElement,35,36);
     var elements = drawingElements(paper);
-
     expect(elements).to.have.length(2);
-    expect(pathFor(elements[0])).to.deep.equal(
-      [expect1.x, expect1.y, expect2.x, expect2.y]);
-    expect(pathFor(elements[1])).to.deep.equal(
-      [expect3.x, expect3.y, expect2.x, expect2.y]);
-
+    expect(pathFor(elements[0])).to.deep.equal([50,50,100,100]);
+    expect(pathFor(elements[1])).to.deep.equal([35,36,100,100]);
   });
 
 });
