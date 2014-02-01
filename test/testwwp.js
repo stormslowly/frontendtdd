@@ -56,13 +56,6 @@ describe("wwp api",function(){
     jQElement.trigger(clickEvent);
   }
 
-  function relativePosition(jqElement,pageX,pageY){
-    var newX = pageX - jqElement.offset().left;
-    var newY = pageY - jqElement.offset().top;
-
-    return {x:newX,y:newY};
-  }
-
   it("can response to mutil clicks",function(){
     clickMouseOn(drawingElement,50,50);
     clickMouseOn(drawingElement,100,100);
