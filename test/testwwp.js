@@ -38,6 +38,28 @@ describe("wwp api",function(){
     expect(paperPaths(paper)).to.deep.equal([["0","0","100","100"]]);
   });
 
+  it("don't reponse to move then mouse up",function(){
+    moveMouseOn(drawingElement,10,8);
+    moveMouseOn(drawingElement,15,28);
+    moveMouseOn(drawingElement,80,90);
+
+    expect(paperPaths(paper)).to.deep.equal([]);
+
+  });
+
+  it("can response to mouse drag ",function(){
+
+      downMouseOn(drawingElement,50,50);
+      moveMouseOn(drawingElement,100,100);
+      upMouseOn(drawingElement,100,100);
+
+      var elements = drawingElements(paper);
+      expect(elements).to.have.length(1);
+      expect(paperPaths(paper)).to.deep.equal([["50","50","100","100"],]);
+    });
+
+
+
   function downMouseOn(jQElement,relativeX,relativeY){
     var topLeftOfDrawingArea = jQElement.offset();
     var pageX = relativeX + topLeftOfDrawingArea.left;
@@ -74,16 +96,6 @@ describe("wwp api",function(){
     jQElement.trigger(clickEvent);
   }
 
-  it("can response to mouse drag ",function(){
-
-    downMouseOn(drawingElement,50,50);
-    moveMouseOn(drawingElement,100,100);
-    upMouseOn(drawingElement,100,100);
-
-    var elements = drawingElements(paper);
-    expect(elements).to.have.length(1);
-    expect(paperPaths(paper)).to.deep.equal([["50","50","100","100"],]);
-  });
 
   function paperPaths(paper) {
     // Note: Paths are normalized with left side first in all cases
