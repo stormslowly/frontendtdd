@@ -53,12 +53,30 @@ describe("wwp api",function(){
       moveMouseOn(drawingElement,100,100);
       upMouseOn(drawingElement,100,100);
 
-      var elements = drawingElements(paper);
-      expect(elements).to.have.length(1);
       expect(paperPaths(paper)).to.deep.equal([["50","50","100","100"],]);
-    });
+  });
 
+  it("draw two segment when two moves",function(){
+    downMouseOn(drawingElement,50,50);
+    moveMouseOn(drawingElement,75,30);
+    moveMouseOn(drawingElement,100,100);
+    upMouseOn(drawingElement,100,100);
 
+    expect(paperPaths(paper)).to.deep.equal([
+      ["50","50","75","30"],
+      ["75","30","100","100"]]);
+  });
+
+  it("draw no segment when mouse is up",function(){
+    downMouseOn(drawingElement,50,50);
+    moveMouseOn(drawingElement,75,30);
+    moveMouseOn(drawingElement,100,100);
+    upMouseOn(drawingElement,100,100);
+
+    expect(paperPaths(paper)).to.deep.equal([
+      ["50","50","75","30"],
+      ["75","30","100","100"]]);
+  });
 
   function downMouseOn(jQElement,relativeX,relativeY){
     var topLeftOfDrawingArea = jQElement.offset();
